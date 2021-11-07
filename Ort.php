@@ -17,6 +17,7 @@ foreach($stmt as $key => $row){
   foreach($row as $akey => $attr){
     if($attr[0]=="{"){
           $attr=json_decode($attr);
+          $akey="geodata";
           $output[$akey]=$attr;
     }else{
         if(!is_int($akey)) $output[$akey]=$attr;
