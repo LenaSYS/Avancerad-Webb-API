@@ -1,10 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 
-// Takes raw data from the request and make php object
-$data = json_decode(file_get_contents('php://input'));
-$ort="Grums";
-
 $output=Array();
 
 $pdo= new PDO('sqlite:weather.db');
