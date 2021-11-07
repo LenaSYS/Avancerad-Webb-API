@@ -3,10 +3,16 @@ header('Content-Type: application/json; charset=utf-8');
 
 // Takes raw data from the request and make php object
 $data = json_decode(file_get_contents('php://input'));
-$ort="Grums";
+
+// Takes raw data from the request and make php object
+$data = json_decode(file_get_contents('php://input'));
+if(isset($data->ort)){
+    $ort=$data->ort;
+}else{
+    $ort="Grums";
+}
 
 $output=Array();
-
 $outputlst=Array();
 
 $inputdate="2020-06-09";
@@ -22,12 +28,13 @@ $stmt->bindParam(':todate', $todate);
 $stmt->bindParam(':name', $name);
 $stmt->execute();
 
+$outputlst=Array();
 // Format sql data as json
 foreach($stmt as $key => $row){
   $output=Array();
   foreach($row as $akey => $attr){
     if($akey=="auxdata") $akey="forecast";
-    if($attr[0]=="{"&&!is_int($akey)){
+    if(substr($attr,0,1)=="{"&&!is_int($akey)){
           $attr=json_decode($attr);
           $output[$akey]=$attr;
     }else{

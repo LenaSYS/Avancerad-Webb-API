@@ -3,7 +3,11 @@ header('Content-Type: application/json; charset=utf-8');
 
 // Takes raw data from the request and make php object
 $data = json_decode(file_get_contents('php://input'));
-$ort="Grums";
+if(isset($data->ort)){
+    $ort=$data->ort;
+}else{
+    $ort="Grums";
+}
 
 $output=Array();
 
@@ -15,7 +19,7 @@ $stmt->execute();
              
 foreach($stmt as $key => $row){
   foreach($row as $akey => $attr){
-    if($attr[0]=="{"){
+    if(substr($attr,0,1)=="{"){
           $attr=json_decode($attr);
           $akey="geodata";
           $output[$akey]=$attr;
