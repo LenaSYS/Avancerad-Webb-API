@@ -11,21 +11,25 @@ if(isset($data->ort)){
 }else{
     $ort="Grums";
 }
+if(isset($data->days)){
+  $days=$data->days;
+}else{
+  $days=1;
+}
 
 $output=Array();
 $outputlst=Array();
 
 $inputdate="2020-06-09";
 $fromdate = date('Y-m-d', strtotime($inputdate));
-$todate = date('Y-m-d', strtotime($fromdate . ' +1 day'));
-$name="Grums";
+$todate = date('Y-m-d', strtotime($fromdate . ' +'.$days.' day'));
 
 $pdo= new PDO('sqlite:weather.db');
 $querystring='SELECT * FROM forecast where fromtime>=:fromdate AND totime<=:todate and name=:name';
 $stmt = $pdo->prepare($querystring);
 $stmt->bindParam(':fromdate', $fromdate);
 $stmt->bindParam(':todate', $todate);
-$stmt->bindParam(':name', $name);
+$stmt->bindParam(':name', $ort);
 $stmt->execute();
 
 $outputlst=Array();
